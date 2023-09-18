@@ -4,13 +4,18 @@ read_psites_from_folder <- function(folder, foldernum){
   lfcs <- files[grepl("_LogFC", files)]
   ps <- files[grepl("_p", files)]
   tercen <- files[grepl(".csv", files)]
-  assign(paste0('lfcs', foldernum), lfcs, envir = parent.frame())
-  assign(paste0('ps', foldernum), ps, envir = parent.frame())
-  assign(paste0('tercen', foldernum), tercen, envir = parent.frame())
+  if (!is_empty(lfcs)){
+    assign(paste0('lfcs', foldernum), lfcs, envir = parent.frame())
+    assign(paste0('ps', foldernum), ps, envir = parent.frame())
+  }
+  if (!is_empty(tercen)){
+    assign(paste0('tercen', foldernum), tercen, envir = parent.frame()) 
+  }
 }
 
 are_lfcs_ps_paired <- function(lfcs, ps, foldernum){
   # 1. stop if an lfc or p is missing 
+  stopifnot("There are no files!" = length(lfcs) != 0)
   stopifnot("An LFC or p file is missing!" = length(lfcs) == length(ps))
   
   # 2. stop if the names don't match
@@ -277,7 +282,7 @@ get_commonids <- function(sign1, sign2, fname, stat_type){
   df_12 <- left_join(df_common, df_sign1, by = "Comparison")
   df_123 <- left_join(df_12, df_sign2, by = "Comparison")
   
-  write_csv(df_123, paste("./result_common_peptides_", fname, "_", stat_type, "_numbers", ".csv", sep = ""))
+  write_csv(df_123, paste("./results/result_common_peptides_", fname, "_", stat_type, "_numbers", ".csv", sep = ""))
   
   return(common_ids)
   
@@ -321,11 +326,11 @@ plot_common_data <- function(sign1, sign2, commonids, data1_name, data2_name, fn
   dflist <- dflist[!is.na(dflist)]
   if (length(dflist)>0){
     commondf <- dflist %>% purrr::reduce(rbind)
-    write_csv(commondf, paste("result_common_peptides_", fname, "_", stat_type, ".csv", sep = ""))
+    write_csv(commondf, paste("./results/result_common_peptides_", fname, "_", stat_type, ".csv", sep = ""))
     
     # params for plotting
     title <- paste("Significant peptides in common - ", fname)
-    filename <- paste("./result_common_peptides_", fname, "_", stat_type, ".png", sep = '')
+    filename <- paste("./results/result_common_peptides_", fname, "_", stat_type, ".png", sep = '')
     
     w <- ifelse(length(conditions) == 1, 10, 16) 
     # since TT is usually 1. 
@@ -412,7 +417,6 @@ get_peptide_results_tercen <- function(tercen1, tercen2, pcutoff,
     
     if (stat_type == "MTvC"){
       sign1 <- extract_phosphosite_data_mtvc_tercen(tercen1[[i]], pcutoff)
-      browser()
       sign2 <- extract_phosphosite_data_mtvc_tercen(tercen2[[i]], pcutoff)
     } else if (stat_type == "TT"){
       sign1 <- extract_phosphosite_data_tt_tercen(tercen1[[i]], pcutoff, comparison)

@@ -50,7 +50,7 @@ compare_two_uka <- function(ukapath1, ukapath2, data1_name, data2_name, fscorecu
   commondf <- left_join(uka1_common, uka2_common)
   
   if (dim(commondf)[1] > 0){
-    write_csv(commondf, paste("./result_common_kinases_", fname, ".csv", sep = ""))
+    write_csv(commondf, paste("./results/result_common_kinases_", fname, ".csv", sep = ""))
   }
   
   wrapper <- function(label, dev_width = dev.size("in")[1], dev_scaler = 5)  {   
@@ -69,7 +69,7 @@ compare_two_uka <- function(ukapath1, ukapath2, data1_name, data2_name, fscorecu
       ggtitle(wrapper(paste("Significant kinases in common - ", fname)))
     
     
-    ggsave(paste("./result_common_kinases_", fname, ".png", sep = ''), ukaplot,
+    ggsave(paste("./results/result_common_kinases_", fname, ".png", sep = ''), ukaplot,
            width = 12, height = 10, units = "cm")
     
   }
