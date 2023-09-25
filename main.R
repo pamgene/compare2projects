@@ -9,8 +9,8 @@ if (!dir.exists("results")){
 
 # 1. get Phosphosite files
 
-read_psites_from_folder(folder = data1_files, foldernum = '1')
-read_psites_from_folder(folder = data2_files, foldernum = '2')
+read_psites_from_folder(folder = data1, foldernum = '1')
+read_psites_from_folder(folder = data2, foldernum = '2')
 
 # read_psites_from_folder(folder = "../compare2analyses_data/example1", foldernum = '1')
 # read_psites_from_folder(folder = "../compare2analyses_data/example2", foldernum = '2')
@@ -48,8 +48,8 @@ if (exists('tercen1')){
 
 # 3. get UKA files
 
-uka_files1 <- list.files(path = data1_files, pattern = "UKA_", full.names = TRUE)
-uka_files2 <- list.files(path = data2_files, pattern = "UKA_", full.names = TRUE)
+uka_files1 <- list.files(path = data1, pattern = "UKA_", full.names = TRUE)
+uka_files2 <- list.files(path = data2, pattern = "UKA_", full.names = TRUE)
 
 # uka_files1 <- list.files(path = "../compare2analyses_data/example1", pattern = "UKA_", full.names = TRUE)
 # uka_files2 <- list.files(path = "../compare2analyses_data/example1", pattern = "UKA_", full.names = TRUE)

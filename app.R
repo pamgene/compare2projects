@@ -33,17 +33,22 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-  make_datafolder <- function(folder) {
-    if (!dir.exists(folder)) {
-      dir.create(folder)
+  make_datafolders <- function(folders) {
+    for (folder in folders){
+      if (!dir.exists(folder)) {
+        dir.create(folder)
+      }
     }
   }
-
-  remove_datafolder <- function(folder) {
-    if (!dir.exists(folder)) {
-      unlink(folder, recursive = T)
+  
+  remove_datafolders <- function(folders) {
+    for (folder in folders){
+      if (dir.exists(folder)) {
+        unlink(folder, recursive = T)
+      }
     }
   }
+  
 
   make_result_zip <- function() {
     file_name <- paste0(input$data2_name, " vs ", input$data1_name, "_results_", format(input$date, "%y%m%d"), ".zip")
@@ -59,16 +64,14 @@ server <- function(input, output, session) {
   }
 
   observe({
-    if (is.null(input$data1_files) & is.null(input$data2_files)) return()
-    else if (!is.null(input$data1_files) & !is.null(input$data2_files)) {
-      remove_datafolder('results')
-      make_datafolder("results")
-      remove_datafolder('data1')
-      remove_datafolder('data2')
-      make_datafolder('data1')
-      make_datafolder('data2')
+    if (is.null(input$data1_files) & is.null(input$data2_files)) {
+      return()
+    } else if (!is.null(input$data1_files) & !is.null(input$data2_files)) {
+      remove_datafolders(c('results', 'data1', 'data2'))
+      make_datafolders(c('data1', 'data2', 'results'))
       move_datafiles(input$data1_files, "data1")
       move_datafiles(input$data2_files, "data2")
+      
       enable("go")
     }
   })
@@ -77,9 +80,10 @@ server <- function(input, output, session) {
   output$files2 <- renderTable(input$data2_files)
   
   observeEvent(input$go, {
+
     withProgress(message = "Working on results...", {
-      data1_files <<- 'data1'
-      data2_files <<- 'data2'
+      data1 <<- 'data1'
+      data2 <<- 'data2'
       data1_name <<- input$data1_name
       data2_name <<- input$data2_name
       fscorecutoff <<- input$fscorecutoff
@@ -90,23 +94,25 @@ server <- function(input, output, session) {
     make_result_zip()
 
     output$download <- renderUI({
-      downloadButton("download", "Download results")
+      downloadButton("download_report", "Download results")
     })
-
+    
+    outputOptions(output, "download_results", suspendWhenHidden = FALSE)
   })
-
-  output$download <- downloadHandler(
-
-        filename = function() {
-          paste0(input$data2_name, " vs ", input$data1_name, "_results_", format(input$date, "%y%m%d"), ".zip")
-        },
-
-        content = function(file) {
-          file.copy(from = paste0(input$data2_name, " vs ", input$data1_name, "_results_", format(input$date, "%y%m%d"), ".zip"),
-                    to = file)
-        },
-        contentType = "application/zip"
-    )
+  
+  output$download_results <- downloadHandler(
+      
+    filename = function() {
+      paste0(input$data2_name, " vs ", input$data1_name, "_results_", format(input$date, "%y%m%d"), ".zip")
+    },
+    
+    content = function(file) {
+      file.copy(from = paste0(input$data2_name, " vs ", input$data1_name, "_results_", format(input$date, "%y%m%d"), ".zip"),
+                to = file)
+    },
+    contentType = "application/zip"
+  )
+  
 }
 
 # Run the application
