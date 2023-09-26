@@ -4,9 +4,20 @@ library(shinyjs)
 ui <- fluidPage(
     useShinyjs(),
     fluidPage(
+        # tags$h1('Compare two projects'),
+        # tags$h3("Compare peptide and kinase results of repeated projects.", class = "paragraph-lead"),
+        tags$div(class = "jumbotron text-center", style = "margin-bottom:0px;margin-top:0px",
+               tags$h1(class = 'jumbotron-heading', stye = 'margin-bottom:0px;margin-top:0px', 'Compare two projects'),
+               p('Compare peptide and kinase results of repeated projects.')
+        ),
         sidebarLayout(
             sidebarPanel(
-                h1("Parameters"),
+                h3("Usage"),
+                p("Save phosphosite and kinase analysis result files (BioNavigator or Tercen) of the two projects in separate folders.
+                  In each folder, the files should have the exact same naming.
+                  In each file, the namespaces should be exactly the same.
+                  Name files the same as for automated reporting."),
+                h2("Parameters"),
                 dateInput("date", "Report Date"),
                 textInput("data1_name", "Data 1 name", value = 'data1'),
                 textInput("data2_name", "Data 2 name", value = 'data2'),
