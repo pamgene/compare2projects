@@ -30,7 +30,7 @@ filter_for_common <- function(uka, commonids){
 
 
 
-compare_two_uka <- function(ukapath1, ukapath2, data1_name, data2_name, fscorecutoff = 1.3, fname){
+compare_two_uka <- function(ukapath1, ukapath2, data1_name, data2_name, fscorecutoff, fname){
   uka1 <- read_delim(ukapath1, show_col_types = F)
   uka2 <- read_delim(ukapath2, show_col_types = F)
   parsed1 <- parse_uka(uka1, fscorecutoff)
@@ -88,7 +88,7 @@ get_uka_results <- function(uka_files1, uka_files2, data1_name, data2_name, fsco
     assay_type <- ifelse(grepl("_PTK_", uka_files1[[i]]), "PTK", "STK")
     
     compare_two_uka(ukapath1 = uka_files1[[i]], ukapath2 = uka_files2[[i]],
-                    data1_name = data1_name, data2_name = data2_name,
+                    data1_name = data1_name, data2_name = data2_name, fscorecutoff = fscorecutoff,
                     fname = comparison)
   }
   

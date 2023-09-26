@@ -60,6 +60,7 @@ stopifnot("Number of UKA files in data1 and data2 folders don't match!" =
 
 # 4. Get UKA results
 source("R/KinaseAnalysis.R")
+
 get_uka_results(uka_files1, uka_files2, data1_name = data1_name, 
                 data2_name = data2_name, fscorecutoff)
 
