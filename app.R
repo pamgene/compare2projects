@@ -11,7 +11,7 @@ ui <- fluidPage(
                 textInput("data1_name", "Data 1 name", value = 'data1'),
                 textInput("data2_name", "Data 2 name", value = 'data2'),
                 numericInput('pcutoff', "P value cutoff", value = 0.05, min = 0.0001, max = 1),
-                numericInput('fscorecutoff', "Median Final Score cutoff", value = 1.3, min = 0, max = 12),
+                numericInput('fscorecutoff', "Final Score cutoff", value = 1.3, min = 0, max = 12),
                 fluidRow(
                   disabled(actionButton("go", "GO", class = "btn-lg btn-success")),
                   br(),
@@ -94,7 +94,7 @@ server <- function(input, output, session) {
     make_result_zip()
 
     output$download <- renderUI({
-      downloadButton("download_report", "Download results")
+      downloadButton("download_results", "Download results")
     })
     
     outputOptions(output, "download_results", suspendWhenHidden = FALSE)
