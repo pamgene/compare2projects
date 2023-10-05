@@ -34,7 +34,7 @@ WORKDIR /report
 
 COPY . .
 
-RUN chown app:app -R /home/app
+RUN chown app:app -R /report
 USER app
 
 RUN R -e 'renv::restore()'
