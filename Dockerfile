@@ -30,7 +30,7 @@ RUN R -e "install.packages('renv', repos = c(CRAN = 'https://cloud.r-project.org
 RUN addgroup --system app \
     && adduser --system --ingroup app app
 
-WORKDIR /home/app
+WORKDIR /report
 
 COPY . .
 
@@ -41,4 +41,4 @@ RUN R -e 'renv::restore()'
 
 EXPOSE 5151
 
-CMD ["R", "-e", "shiny::runApp('/home/app', port = 5151, host = '0.0.0.0')"]
+CMD ["R", "-e", "shiny::runApp('/report', port = 5151, host = '0.0.0.0')"]
