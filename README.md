@@ -1,5 +1,5 @@
 # General
-Compares peptide and kinase results of two projects with the same design (repeated projects).
+Compares peptide and kinase results of two projects with the same design (repeated projects). 
 
 # File naming
 Save phosphosite and kinase analysis result files (BioNavigator or Tercen) of the two projects in separate folders.
