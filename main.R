@@ -34,7 +34,6 @@ if (exists('tercen1') & exists('tercen2')){
 }
 
 # 2. get peptide results
-source("R/PhosphositeAnalysis_c2a.R")
 
 if (exists('lfcs1')){
   get_peptide_results_bn(lfcs1, ps1, lfcs2, ps2, pcutoff = pcutoff,
@@ -59,10 +58,9 @@ stopifnot("Number of UKA files in data1 and data2 folders don't match!" =
             length(uka_files1) == length(uka_files2))
 
 # 4. Get UKA results
-source("R/KinaseAnalysis.R")
 
-get_uka_results(uka_files1, uka_files2, data1_name = data1_name, 
-                data2_name = data2_name, fscorecutoff)
+get_uka_results(uka_files1 = uka_files1, uka_files2 = uka_files2, output_type = output_type, data1_name = data1_name, 
+                data2_name = data2_name, fscorecutoff = fscorecutoff, uka_version = uka_version)
 
 
 
